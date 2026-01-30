@@ -113,7 +113,7 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
         <div className="flex items-center justify-between gap-3">
           <div className="flex-1 min-w-0">
             <CardTitle className="text-xl sm:text-2xl lg:text-3xl font-bold text-indigo-900 truncate">
-              📋 Plan d'Action
+              Plan d'Action
             </CardTitle>
             {studentName && (
               <p className="text-xs sm:text-sm text-indigo-600 mt-1 truncate">{studentName}</p>
@@ -141,7 +141,7 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
         {tasks.length === 0 ? (
           <div className="text-center py-8 sm:py-12 text-gray-400">
             <p className="text-base sm:text-lg">Aucune tâche</p>
-            <p className="text-xs sm:text-sm mt-2">Commence ! 🚀</p>
+            <p className="text-xs sm:text-sm mt-2">Commence !</p>
           </div>
         ) : (
           tasks.map((task) => (

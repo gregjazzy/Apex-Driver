@@ -92,7 +92,6 @@ export default function StudentDashboard() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-4">
         <div className="text-center bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg max-w-md">
-          <div className="text-6xl mb-4">⚠️</div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Profil introuvable</h2>
           <p className="text-gray-600 mb-6">
             Impossible de charger ton profil. Assure-toi d'avoir bien créé ton compte.
@@ -116,7 +115,7 @@ export default function StudentDashboard() {
           <div className="flex items-center justify-between gap-3">
             <div className="flex-1 min-w-0">
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent truncate">
-                🏎️ {userName.split(' ')[0]}
+                {userName.split(' ')[0]}
               </h1>
               <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 hidden sm:block">Prêt à donner le meilleur de toi-même ?</p>
             </div>
@@ -151,7 +150,7 @@ export default function StudentDashboard() {
         {/* Message de motivation - Mobile adapté */}
         <div className="p-4 sm:p-6 lg:p-8 bg-white/60 backdrop-blur-sm rounded-2xl sm:rounded-3xl border-2 border-gray-200 text-center">
           <p className="text-base sm:text-xl lg:text-2xl font-semibold text-gray-800">
-            💪 Chaque petite victoire compte !
+            Chaque petite victoire compte !
           </p>
           <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">
             Continue comme ça, tu progresses chaque jour

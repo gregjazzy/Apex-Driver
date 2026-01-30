@@ -55,9 +55,8 @@ export default function SignUpPage() {
       <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-3 sm:p-4">
         <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border-2">
           <CardContent className="p-8 sm:p-12 text-center">
-            <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🎉</div>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
-              Bienvenue chez Apex Driver !
+              Bienvenue chez Apex Dashboard !
             </h2>
             <p className="text-sm sm:text-base text-gray-600">
               Ton compte a été créé avec succès. Redirection...
@@ -72,11 +71,10 @@ export default function SignUpPage() {
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-3 sm:p-4">
       <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border-2">
         <CardHeader className="text-center pb-6 sm:pb-8 pt-8 sm:pt-10 px-4 sm:px-8">
-          <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🏎️</div>
           <CardTitle className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             Créer un compte
           </CardTitle>
-          <p className="text-sm sm:text-base text-gray-600 mt-2">Rejoins Apex Driver</p>
+          <p className="text-sm sm:text-base text-gray-600 mt-2">Rejoins Apex Dashboard</p>
         </CardHeader>
 
         <CardContent className="px-4 sm:px-8 pb-8 sm:pb-10">

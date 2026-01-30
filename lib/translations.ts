@@ -17,7 +17,7 @@ export const translations = {
     iAm: "Je suis un(e)",
     
     // Landing Page
-    appTitle: "Apex Driver",
+    appTitle: "Apex Dashboard",
     appSubtitle: "La plateforme de coaching pour pilotes en herbe",
     appDescription: "Organise tes tâches, utilise la technique Pomodoro et suit ta progression en temps réel avec ton coach. Une interface moderne et intuitive pour t'aider à donner le meilleur de toi-même !",
     getStarted: "Commencer",
@@ -131,7 +131,7 @@ export const translations = {
     iAm: "I am a",
     
     // Landing Page
-    appTitle: "Apex Driver",
+    appTitle: "Apex Dashboard",
     appSubtitle: "The coaching platform for aspiring drivers",
     appDescription: "Organize your tasks, use the Pomodoro technique and track your progress in real-time with your coach. A modern and intuitive interface to help you give your best!",
     getStarted: "Get Started",

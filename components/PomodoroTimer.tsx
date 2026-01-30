@@ -150,19 +150,19 @@ export function PomodoroTimer({ studentId }: PomodoroTimerProps) {
     work: {
       color: 'from-indigo-500 to-purple-600',
       bgColor: 'bg-indigo-50',
-      label: '🎯 Concentration',
+      label: 'Concentration',
       strokeColor: '#6366f1',
     },
     short: {
       color: 'from-teal-500 to-cyan-600',
       bgColor: 'bg-teal-50',
-      label: '☕ Pause Courte',
+      label: 'Pause Courte',
       strokeColor: '#14b8a6',
     },
     long: {
       color: 'from-amber-500 to-orange-600',
       bgColor: 'bg-amber-50',
-      label: '🌴 Grande Pause',
+      label: 'Grande Pause',
       strokeColor: '#f59e0b',
     },
   }

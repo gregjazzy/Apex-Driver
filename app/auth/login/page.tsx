@@ -43,9 +43,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-3 sm:p-4">
       <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border-2">
         <CardHeader className="text-center pb-6 sm:pb-8 pt-8 sm:pt-10 px-4 sm:px-8">
-          <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🏎️</div>
           <CardTitle className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Apex Driver
+            Apex Dashboard
           </CardTitle>
           <p className="text-sm sm:text-base text-gray-600 mt-2">Connecte-toi pour démarrer</p>
         </CardHeader>

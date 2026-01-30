@@ -234,7 +234,7 @@ export default function CoachDashboard() {
           <div className="flex items-center justify-between gap-3">
             <div className="flex-1 min-w-0">
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent truncate">
-                👨‍🏫 Coach
+                Dashboard Coach
               </h1>
               <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 hidden sm:block">Bienvenue {coachName}</p>
             </div>
@@ -256,7 +256,7 @@ export default function CoachDashboard() {
         <Card className="rounded-2xl sm:rounded-3xl shadow-lg border-2">
           <CardHeader className="bg-gradient-to-br from-indigo-50 to-purple-50 p-4 sm:p-6">
             <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-indigo-900">
-              📚 Mes Élèves ({students.length})
+              Mes Élèves ({students.length})
             </CardTitle>
           </CardHeader>
 
@@ -308,7 +308,7 @@ export default function CoachDashboard() {
         {/* Infos - Mobile adapté */}
         <div className="p-4 sm:p-6 lg:p-8 bg-white/60 backdrop-blur-sm rounded-2xl sm:rounded-3xl border-2 border-gray-200">
           <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 mb-2 sm:mb-4">
-            💡 Conseil
+            Conseil
           </h3>
           <p className="text-sm sm:text-base text-gray-600">
             Clique sur un élève pour gérer ses tâches en temps réel. Tout est synchronisé instantanément !
