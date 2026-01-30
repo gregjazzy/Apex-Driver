@@ -46,14 +46,35 @@ npm run dev
 
 Ouvrez http://localhost:3000
 
-### 7. Créez votre compte Coach
-- Cliquez "Commencer"
-- Inscrivez-vous
-- **Sélectionnez "👨‍🏫 Coach"**
-- Utilisez VOTRE email et un mot de passe fort
+### 7. Créez les comptes utilisateurs
 
-## 📚 Documentation complète
+**Dans SQL Editor**, nouvelle query :
+1. Copiez tout le contenu de `supabase/create_users.sql`
+2. **Run**
 
+✅ Cela crée automatiquement :
+- **Votre compte Coach** : `admin@apexdriver.com` / `admin`
+- **Compte élève Sacha** : `sacha@apexdriver.com` / `Bertini`
+
+### 8. Testez la connexion
+
+**Vous (Coach)** :
+```
+Email : admin@apexdriver.com
+Mot de passe : admin
+```
+
+**Sacha (Élève)** :
+```
+Email : sacha@apexdriver.com
+Mot de passe : Bertini
+```
+
+⚠️ Utilisez bien l'EMAIL complet pour vous connecter !
+
+## 🎓 C'est prêt !
+
+- **COMPTES_UTILISATEURS.md** - Gestion des comptes Coach/Élèves (IMPORTANT !)
 - **SUPABASE_CONFIG.md** - Configuration détaillée (LISEZ-MOI EN PREMIER!)
 - **QUICKSTART.md** - Guide rapide général
 - **README.md** - Documentation complète
