@@ -12,7 +12,6 @@ export const dynamic = 'force-dynamic'
 export default function SignUpPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [fullName, setFullName] = useState('')
   const [role, setRole] = useState<'coach' | 'student'>('student')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -33,7 +32,7 @@ export default function SignUpPage() {
       password,
       options: {
         data: {
-          full_name: fullName,
+          full_name: username,
           role: role,
         },
       },
@@ -84,20 +83,6 @@ export default function SignUpPage() {
           <form onSubmit={handleSignUp} className="space-y-4 sm:space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nom complet
-              </label>
-              <input
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-base sm:text-lg"
-                placeholder="Ton nom"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Identifiant
               </label>
               <input
@@ -105,7 +90,7 @@ export default function SignUpPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-base sm:text-lg"
-                placeholder="Choisis un pseudo"
+                placeholder="Sacha"
                 required
               />
             </div>
