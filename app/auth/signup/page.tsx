@@ -161,7 +161,7 @@ export default function SignUpPage() {
 
           <div className="mt-5 sm:mt-6 text-center">
             <a href="/auth/login" className="text-sm sm:text-base text-indigo-600 hover:text-indigo-700 font-medium">
-              Déjà un compte ? Connecte-toi
+              Se connecter
             </a>
           </div>
         </CardContent>

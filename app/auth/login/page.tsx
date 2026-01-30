@@ -93,12 +93,6 @@ export default function LoginPage() {
               {loading ? 'Connexion...' : 'Se connecter'}
             </Button>
           </form>
-
-          <div className="mt-5 sm:mt-6 text-center">
-            <a href="/auth/signup" className="text-sm sm:text-base text-indigo-600 hover:text-indigo-700 font-medium">
-              Pas encore de compte ? Inscris-toi
-            </a>
-          </div>
         </CardContent>
       </Card>
     </div>
