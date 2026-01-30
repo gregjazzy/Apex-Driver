@@ -1,0 +1,61 @@
+ÉTAPE 1 : RÉCUPÉRER VOTRE ANON KEY
+=====================================
+
+Allez sur cette URL :
+https://supabase.com/dashboard/project/ehlpgctnlugghegyzeqc/settings/api
+
+Cherchez : "Project API keys"
+Copiez la clé "anon" / "public"
+(Elle commence par "eyJ...")
+
+
+ÉTAPE 2 : ALLER SUR NETLIFY
+============================
+
+URL : https://app.netlify.com
+Cliquez sur votre site "Apex Driver"
+Menu gauche → "Site configuration"
+Cliquez sur "Environment variables"
+
+
+ÉTAPE 3 : AJOUTER LA PREMIÈRE VARIABLE
+=======================================
+
+Cliquez "Add a variable" → "Add a single variable"
+
+Key (copiez exactement) :
+NEXT_PUBLIC_SUPABASE_URL
+
+Value (copiez exactement) :
+https://ehlpgctnlugghegyzeqc.supabase.co
+
+Cliquez "Create variable"
+
+
+ÉTAPE 4 : AJOUTER LA DEUXIÈME VARIABLE
+======================================
+
+Cliquez "Add a variable" → "Add a single variable"
+
+Key (copiez exactement) :
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+Value :
+[COLLEZ ICI LA CLÉ COPIÉE À L'ÉTAPE 1]
+
+Cliquez "Create variable"
+
+
+ÉTAPE 5 : RE-DÉPLOYER
+=====================
+
+Menu gauche → "Deploys"
+Bouton "Trigger deploy" (en haut à droite)
+Cliquez "Deploy site"
+
+
+✅ C'EST TERMINÉ !
+=================
+
+Attendez 2-3 minutes que le build se termine.
+Votre site sera en ligne !
