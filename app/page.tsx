@@ -1,77 +1,74 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { useLanguage } from '@/lib/language-context'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 export default function Home() {
-  const { t } = useLanguage()
-  
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-4">
-      {/* Language Switcher */}
-      <div className="absolute top-6 right-6">
-        <LanguageSwitcher />
-      </div>
-
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
       <div className="max-w-4xl w-full text-center">
-        {/* Logo et titre */}
+        {/* Titre */}
         <div className="mb-12">
-          <div className="text-8xl mb-6">🎓</div>
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent mb-4">
-            {t('appTitle')}
+          <h1 className="text-5xl sm:text-7xl font-bold text-neutral-100 mb-4">
+            Apex Dashboard
           </h1>
-          <p className="text-2xl text-gray-700 font-medium">
-            {t('appSubtitle')}
+          <p className="text-xl sm:text-2xl text-neutral-400">
+            Organise tes tâches et maximise ta productivité
           </p>
         </div>
 
         {/* Description */}
-        <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 mb-8 border-2 border-gray-200 shadow-xl">
-          <p className="text-lg text-gray-700 leading-relaxed">
-            {t('appDescription')}
+        <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-8 mb-8">
+          <p className="text-lg text-neutral-300 leading-relaxed">
+            Un outil simple et efficace pour gérer ton travail : Plan d'Action pour tes tâches, 
+            technique Pomodoro pour la concentration, et suivi en temps réel avec ton coach.
           </p>
         </div>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link href="/auth/signup">
-            <Button className="w-64 h-16 rounded-2xl text-xl font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg">
-              🚀 {t('getStarted')}
-            </Button>
-          </Link>
-          <Link href="/auth/login">
-            <Button 
-              variant="outline" 
-              className="w-64 h-16 rounded-2xl text-xl font-semibold border-2 border-gray-300 hover:border-indigo-400 hover:bg-white/80"
-            >
-              {t('login')}
-            </Button>
+        {/* Boutons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+          <Link
+            href="/auth/login"
+            className="w-full sm:w-64 py-4 px-8 bg-violet-600 hover:bg-violet-500 text-white rounded-lg font-semibold text-lg transition-colors"
+          >
+            Se connecter
           </Link>
         </div>
 
         {/* Features */}
-        <div className="mt-16 grid md:grid-cols-3 gap-6">
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border-2 border-indigo-100">
-            <div className="text-4xl mb-3">📋</div>
-            <h3 className="text-xl font-bold text-indigo-900 mb-2">{t('features.actionPlan.title')}</h3>
-            <p className="text-gray-600">
-              {t('features.actionPlan.description')}
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
+            <div className="w-12 h-12 bg-violet-500/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+              <svg className="w-6 h-6 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-neutral-100 mb-2">Plan d'Action</h3>
+            <p className="text-neutral-400 text-sm">
+              Organise tes tâches par priorité et coche-les au fur et à mesure
             </p>
           </div>
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border-2 border-purple-100">
-            <div className="text-4xl mb-3">⏱️</div>
-            <h3 className="text-xl font-bold text-purple-900 mb-2">{t('features.pomodoro.title')}</h3>
-            <p className="text-gray-600">
-              {t('features.pomodoro.description')}
+
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
+            <div className="w-12 h-12 bg-teal-500/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+              <svg className="w-6 h-6 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-neutral-100 mb-2">Pomodoro</h3>
+            <p className="text-neutral-400 text-sm">
+              25 minutes de concentration intense, 5 minutes de pause. Simple et efficace
             </p>
           </div>
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border-2 border-teal-100">
-            <div className="text-4xl mb-3">📊</div>
-            <h3 className="text-xl font-bold text-teal-900 mb-2">{t('features.tracking.title')}</h3>
-            <p className="text-gray-600">
-              {t('features.tracking.description')}
+
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
+            <div className="w-12 h-12 bg-amber-500/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+              <svg className="w-6 h-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-neutral-100 mb-2">Suivi en temps réel</h3>
+            <p className="text-neutral-400 text-sm">
+              Ton coach voit ta progression instantanément et peut t'accompagner
             </p>
           </div>
         </div>
