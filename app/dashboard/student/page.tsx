@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { ActionPlan } from '@/components/ActionPlan'
 import { PomodoroTimer } from '@/components/PomodoroTimer'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { LogOut } from 'lucide-react'
 
 // Force dynamic rendering to prevent build-time errors
@@ -100,17 +101,20 @@ export default function StudentDashboard() {
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent truncate">
                 {userName.split(' ')[0]}
               </h1>
-              <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 hidden sm:block">Prêt à donner le meilleur de toi-même ?</p>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5 sm:mt-1 hidden sm:block">Prêt à donner le meilleur de toi-même ?</p>
             </div>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="rounded-xl border-2 shrink-0"
-            >
-              <LogOut className="w-4 h-4 sm:mr-2" />
-              <span className="hidden sm:inline">Déconnexion</span>
-            </Button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                size="sm"
+                className="rounded-xl border-2"
+              >
+                <LogOut className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Déconnexion</span>
+              </Button>
+            </div>
           </div>
         </div>
       </header>

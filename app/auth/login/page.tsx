@@ -24,16 +24,22 @@ export default function LoginPage() {
 
     // Convertir l'identifiant en email pour Supabase Auth
     const email = `${username.toLowerCase()}@apexdriver.app`
+    
+    console.log('Tentative de connexion:', email, password)
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
 
+    console.log('Réponse Supabase:', data, error)
+
     if (error) {
+      console.error('Erreur Supabase:', error.message)
       setError('Identifiant ou mot de passe incorrect')
       setLoading(false)
     } else {
+      console.log('Connexion réussie!')
       router.push('/dashboard')
       router.refresh()
     }

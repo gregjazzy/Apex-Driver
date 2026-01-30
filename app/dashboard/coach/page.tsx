@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { ActionPlan } from '@/components/ActionPlan'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { LogOut, ArrowLeft, Clock, CheckCircle2 } from 'lucide-react'
 
 // Force dynamic rendering to prevent build-time errors
@@ -242,17 +243,20 @@ export default function CoachDashboard() {
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent truncate">
                 Dashboard Coach
               </h1>
-              <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 hidden sm:block">Bienvenue {coachName}</p>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5 sm:mt-1 hidden sm:block">Bienvenue {coachName}</p>
             </div>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="rounded-lg sm:rounded-xl border-2 shrink-0"
-            >
-              <LogOut className="w-4 h-4 sm:mr-2" />
-              <span className="hidden sm:inline">Déconnexion</span>
-            </Button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                size="sm"
+                className="rounded-lg sm:rounded-xl border-2 shrink-0"
+              >
+                <LogOut className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Déconnexion</span>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
