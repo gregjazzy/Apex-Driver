@@ -52,10 +52,13 @@ export default function SignUpPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-3 sm:p-4">
-        <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border-2">
+      <div className="min-h-screen bg-gradient-to-br flex items-center justify-center p-3 sm:p-4 relative">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        
+        <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border border-white/10 relative z-10">
           <CardContent className="p-8 sm:p-12 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               Bienvenue chez Apex Dashboard !
             </h2>
             <p className="text-sm sm:text-base text-gray-600">
@@ -69,12 +72,12 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-3 sm:p-4">
-      <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border-2">
+      <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border border-white/10 relative z-10">
         <CardHeader className="text-center pb-6 sm:pb-8 pt-8 sm:pt-10 px-4 sm:px-8">
-          <CardTitle className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent">
             Créer un compte
           </CardTitle>
-          <p className="text-sm sm:text-base text-gray-600 mt-2">Rejoins Apex Dashboard</p>
+          <p className="text-sm sm:text-base text-gray-500 mt-2">Rejoins Apex Dashboard</p>
         </CardHeader>
 
         <CardContent className="px-4 sm:px-8 pb-8 sm:pb-10">
