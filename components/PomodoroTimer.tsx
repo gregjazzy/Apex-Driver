@@ -28,6 +28,24 @@ function PomodoroInfo() {
         </ol>
       </div>
 
+      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+        <p className="font-medium text-blue-300 mb-2">📊 Les bases scientifiques</p>
+        <ul className="space-y-2 text-neutral-400 text-sm">
+          <li>
+            <strong className="text-neutral-200">Attention soutenue limitée :</strong> Ton cerveau ne peut maintenir une concentration maximale que 20-30 minutes avant que l'efficacité diminue.
+          </li>
+          <li>
+            <strong className="text-neutral-200">Consolidation mémorielle :</strong> Les pauses permettent à ton hippocampe de transférer les infos de la mémoire de travail vers la mémoire à long terme.
+          </li>
+          <li>
+            <strong className="text-neutral-200">Repos du cortex préfrontal :</strong> Cette zone du cerveau, responsable de la concentration et des décisions, se fatigue vite. Les pauses la "rechargent".
+          </li>
+          <li>
+            <strong className="text-neutral-200">Effet Zeigarnik :</strong> Notre cerveau retient mieux les tâches inachevées. Après une pause, tu reviens avec plus de motivation !
+          </li>
+        </ul>
+      </div>
+
       <div>
         <p className="font-medium text-neutral-100 mb-2">Pourquoi c'est efficace ?</p>
         <ul className="space-y-2">
