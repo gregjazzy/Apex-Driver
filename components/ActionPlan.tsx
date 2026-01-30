@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react'
 import { useTasks } from '@/hooks/useTasks'
 import { Check, Plus, Trash2 } from 'lucide-react'
 import confetti from 'canvas-confetti'
+import { InfoModal } from './InfoModal'
 
 interface ActionPlanProps {
   studentId: string
@@ -16,6 +17,62 @@ const priorityConfig = {
   1: { label: 'Urgent', color: 'text-red-400', bg: 'bg-red-500/10' },
   2: { label: 'Important', color: 'text-amber-400', bg: 'bg-amber-500/10' },
   3: { label: 'Normal', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+}
+
+function ActionPlanInfo() {
+  return (
+    <>
+      <p>
+        <strong className="text-neutral-100">Le Plan d'Action</strong> est ton outil pour organiser et suivre tes tâches. C'est bien plus qu'une simple to-do list !
+      </p>
+      
+      <div className="bg-neutral-800 rounded-lg p-3">
+        <p className="font-medium text-neutral-100 mb-2">Les 3 niveaux de priorité</p>
+        <ul className="space-y-2">
+          <li className="flex items-center gap-2">
+            <span className="text-red-400 font-bold">Urgent</span>
+            <span className="text-neutral-400">- À faire aujourd'hui, deadline proche</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="text-amber-400 font-bold">Important</span>
+            <span className="text-neutral-400">- À faire cette semaine, tâche clé</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="text-emerald-400 font-bold">Normal</span>
+            <span className="text-neutral-400">- À faire quand possible</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p className="font-medium text-neutral-100 mb-2">Pourquoi utiliser un plan d'action ?</p>
+        <ul className="space-y-2">
+          <li className="flex gap-2">
+            <span className="text-violet-400">•</span>
+            <span><strong className="text-neutral-200">Libère ton esprit</strong> : plus besoin de tout retenir, c'est écrit</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-violet-400">•</span>
+            <span><strong className="text-neutral-200">Visualise ta progression</strong> : chaque tâche cochée = une victoire</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-violet-400">•</span>
+            <span><strong className="text-neutral-200">Priorise intelligemment</strong> : fais d'abord ce qui compte vraiment</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-violet-400">•</span>
+            <span><strong className="text-neutral-200">Partage avec ton coach</strong> : il voit tes progrès en temps réel</span>
+          </li>
+        </ul>
+      </div>
+
+      <div className="bg-violet-500/10 border border-violet-500/20 rounded-lg p-3">
+        <p className="text-violet-300 text-sm">
+          <strong>Astuce :</strong> Découpe les grosses tâches en petites étapes. "Réviser les maths" devient "Faire les exercices p.42", "Relire le cours chapitre 3", etc. C'est plus motivant !
+        </p>
+      </div>
+    </>
+  )
 }
 
 export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPlanProps) {
@@ -59,13 +116,16 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
       {/* Header */}
       <div className="p-5 border-b border-neutral-800">
         <div className="flex items-center justify-between mb-4">
-          <div>
+          <div className="flex items-center gap-2">
             <h2 className="text-lg font-semibold text-neutral-100">Plan d'Action</h2>
-            {studentName && <p className="text-sm text-neutral-500">{studentName}</p>}
+            <InfoModal title="Le Plan d'Action">
+              <ActionPlanInfo />
+            </InfoModal>
           </div>
           <div className="text-right">
             <span className="text-2xl font-bold text-neutral-100">{completedCount}</span>
             <span className="text-neutral-500">/{totalCount}</span>
+            {studentName && <p className="text-xs text-neutral-500">{studentName}</p>}
           </div>
         </div>
         

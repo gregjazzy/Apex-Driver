@@ -3,12 +3,61 @@
 import { useState, useEffect, useRef } from 'react'
 import { usePomodoroSessions } from '@/hooks/usePomodoroSessions'
 import { Play, Pause, RotateCcw, X } from 'lucide-react'
+import { InfoModal } from './InfoModal'
 
 interface PomodoroTimerProps {
   studentId: string
 }
 
 const DURATIONS = { work: 25 * 60, short: 5 * 60, long: 15 * 60 }
+
+function PomodoroInfo() {
+  return (
+    <>
+      <p>
+        <strong className="text-neutral-100">La technique Pomodoro</strong> est une méthode de gestion du temps développée par Francesco Cirillo à la fin des années 1980.
+      </p>
+      
+      <div className="bg-neutral-800 rounded-lg p-3">
+        <p className="font-medium text-neutral-100 mb-2">Comment ça marche ?</p>
+        <ol className="list-decimal list-inside space-y-1 text-neutral-400">
+          <li>Choisis une tâche à accomplir</li>
+          <li>Travaille pendant <span className="text-violet-400">25 minutes</span> sans interruption</li>
+          <li>Prends une pause de <span className="text-teal-400">5 minutes</span></li>
+          <li>Après 4 cycles, prends une pause longue de <span className="text-amber-400">15-30 minutes</span></li>
+        </ol>
+      </div>
+
+      <div>
+        <p className="font-medium text-neutral-100 mb-2">Pourquoi c'est efficace ?</p>
+        <ul className="space-y-2">
+          <li className="flex gap-2">
+            <span className="text-violet-400">•</span>
+            <span><strong className="text-neutral-200">Combat la procrastination</strong> : 25 minutes paraît gérable, même pour les tâches difficiles</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-violet-400">•</span>
+            <span><strong className="text-neutral-200">Améliore la concentration</strong> : ton cerveau sait qu'une pause arrive, donc il reste focalisé</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-violet-400">•</span>
+            <span><strong className="text-neutral-200">Réduit la fatigue mentale</strong> : les pauses régulières évitent l'épuisement</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-violet-400">•</span>
+            <span><strong className="text-neutral-200">Mesure ta productivité</strong> : tu vois concrètement combien de sessions tu as faites</span>
+          </li>
+        </ul>
+      </div>
+
+      <div className="bg-violet-500/10 border border-violet-500/20 rounded-lg p-3">
+        <p className="text-violet-300 text-sm">
+          <strong>Astuce :</strong> Pendant un Pomodoro, si une distraction arrive (idée, notification...), note-la rapidement et reviens à ta tâche. Tu t'en occuperas pendant la pause !
+        </p>
+      </div>
+    </>
+  )
+}
 
 export function PomodoroTimer({ studentId }: PomodoroTimerProps) {
   const [timeLeft, setTimeLeft] = useState(DURATIONS.work)
@@ -84,9 +133,15 @@ export function PomodoroTimer({ studentId }: PomodoroTimerProps) {
     <div className="bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden">
       {/* Header */}
       <div className="p-5 border-b border-neutral-800">
-        <h2 className="text-lg font-semibold text-neutral-100 text-center">
-          {mode === 'work' ? 'Concentration' : mode === 'short' ? 'Pause Courte' : 'Grande Pause'}
-        </h2>
+        <div className="flex items-center justify-between">
+          <div className="w-8" /> {/* Spacer */}
+          <h2 className="text-lg font-semibold text-neutral-100">
+            {mode === 'work' ? 'Concentration' : mode === 'short' ? 'Pause Courte' : 'Grande Pause'}
+          </h2>
+          <InfoModal title="La technique Pomodoro">
+            <PomodoroInfo />
+          </InfoModal>
+        </div>
       </div>
 
       <div className="p-6">
