@@ -12,6 +12,7 @@ interface ActionPlanProps {
   studentId: string
   isCoach?: boolean
   studentName?: string
+  canAddTasks?: boolean
 }
 
 const priorityColors = {
@@ -26,7 +27,7 @@ const priorityLabels = {
   3: 'Normal',
 }
 
-export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPlanProps) {
+export function ActionPlan({ studentId, isCoach = false, studentName, canAddTasks = true }: ActionPlanProps) {
   const { tasks, loading, toggleTask, addTask, deleteTask } = useTasks(studentId)
   const [newTaskTitle, setNewTaskTitle] = useState('')
   const [newTaskPriority, setNewTaskPriority] = useState<1 | 2 | 3>(2)
@@ -209,72 +210,70 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
           ))
         )}
 
-        {/* Formulaire d'ajout (coach uniquement) - Mobile optimisé */}
-        {isCoach && (
-          <div className="pt-2 sm:pt-4">
-            {!isAdding ? (
-              <Button
-                onClick={() => setIsAdding(true)}
-                className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 text-sm sm:text-base lg:text-lg bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 active:scale-[0.98] transition-transform"
-              >
-                <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Ajouter
-              </Button>
-            ) : (
-              <form onSubmit={handleAddTask} className="space-y-2 sm:space-y-3 p-3 sm:p-4 lg:p-5 bg-indigo-50/50 rounded-xl sm:rounded-2xl">
-                <input
-                  type="text"
-                  value={newTaskTitle}
-                  onChange={(e) => setNewTaskTitle(e.target.value)}
-                  placeholder="Titre..."
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border-2 border-indigo-200 focus:border-indigo-500 focus:outline-none text-sm sm:text-base lg:text-lg"
-                  autoFocus
-                />
-                
-                <div className="flex gap-1.5 sm:gap-2">
-                  {[1, 2, 3].map((priority) => (
-                    <button
-                      key={priority}
-                      type="button"
-                      onClick={() => setNewTaskPriority(priority as 1 | 2 | 3)}
-                      className={`
-                        flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all active:scale-95
-                        ${
-                          newTaskPriority === priority
-                            ? 'bg-indigo-600 text-white'
-                            : 'bg-white border-2 border-gray-200 text-gray-600 hover:border-indigo-300'
-                        }
-                      `}
-                    >
-                      {priorityLabels[priority as 1 | 2 | 3]}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex gap-2">
-                  <Button
-                    type="submit"
-                    className="flex-1 rounded-lg sm:rounded-xl bg-indigo-600 hover:bg-indigo-700 h-10 sm:h-11 text-sm active:scale-95 transition-transform"
-                  >
-                    Ajouter
-                  </Button>
-                  <Button
+        {/* Formulaire d'ajout - Pour tout le monde */}
+        <div className="pt-2 sm:pt-4">
+          {!isAdding ? (
+            <Button
+              onClick={() => setIsAdding(true)}
+              className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 text-sm sm:text-base lg:text-lg bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 active:scale-[0.98] transition-transform"
+            >
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              Ajouter
+            </Button>
+          ) : (
+            <form onSubmit={handleAddTask} className="space-y-2 sm:space-y-3 p-3 sm:p-4 lg:p-5 bg-indigo-50/50 dark:bg-slate-800/50 rounded-xl sm:rounded-2xl">
+              <input
+                type="text"
+                value={newTaskTitle}
+                onChange={(e) => setNewTaskTitle(e.target.value)}
+                placeholder="Titre..."
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border-2 border-indigo-200 focus:border-indigo-500 focus:outline-none text-sm sm:text-base lg:text-lg dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                autoFocus
+              />
+              
+              <div className="flex gap-1.5 sm:gap-2">
+                {[1, 2, 3].map((priority) => (
+                  <button
+                    key={priority}
                     type="button"
-                    variant="outline"
-                    onClick={() => {
-                      setIsAdding(false)
-                      setNewTaskTitle('')
-                      setNewTaskPriority(2)
-                    }}
-                    className="flex-1 rounded-lg sm:rounded-xl h-10 sm:h-11 text-sm active:scale-95 transition-transform"
+                    onClick={() => setNewTaskPriority(priority as 1 | 2 | 3)}
+                    className={`
+                      flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all active:scale-95
+                      ${
+                        newTaskPriority === priority
+                          ? 'bg-indigo-600 text-white'
+                          : 'bg-white dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-600 text-gray-600 dark:text-gray-300 hover:border-indigo-300'
+                      }
+                    `}
                   >
-                    Annuler
-                  </Button>
-                </div>
-              </form>
-            )}
-          </div>
-        )}
+                    {priorityLabels[priority as 1 | 2 | 3]}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-2">
+                <Button
+                  type="submit"
+                  className="flex-1 rounded-lg sm:rounded-xl bg-indigo-600 hover:bg-indigo-700 h-10 sm:h-11 text-sm active:scale-95 transition-transform"
+                >
+                  Ajouter
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsAdding(false)
+                    setNewTaskTitle('')
+                    setNewTaskPriority(2)
+                  }}
+                  className="flex-1 rounded-lg sm:rounded-xl h-10 sm:h-11 text-sm active:scale-95 transition-transform"
+                >
+                  Annuler
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
       </CardContent>
     </Card>
   )
