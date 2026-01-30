@@ -8,6 +8,9 @@ import { PomodoroTimer } from '@/components/PomodoroTimer'
 import { Button } from '@/components/ui/button'
 import { LogOut } from 'lucide-react'
 
+// Force dynamic rendering to prevent build-time errors
+export const dynamic = 'force-dynamic'
+
 export default function StudentDashboard() {
   const [userId, setUserId] = useState<string | null>(null)
   const [userName, setUserName] = useState<string>('')

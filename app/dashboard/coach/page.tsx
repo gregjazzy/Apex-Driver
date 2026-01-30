@@ -11,6 +11,9 @@ import { Badge } from '@/components/ui/badge'
 import { ActionPlan } from '@/components/ActionPlan'
 import { LogOut, ArrowLeft, Clock, CheckCircle2 } from 'lucide-react'
 
+// Force dynamic rendering to prevent build-time errors
+export const dynamic = 'force-dynamic'
+
 type Profile = Database['public']['Tables']['apexdriver_profiles']['Row']
 type Task = Database['public']['Tables']['apexdriver_tasks']['Row']
 type PomodoroSession = Database['public']['Tables']['apexdriver_pomodoro_sessions']['Row']
