@@ -31,20 +31,19 @@ export default function CoachDashboard() {
   const [studentStats, setStudentStats] = useState<StudentStats | null>(null)
   const [coachName, setCoachName] = useState<string>('')
   const [loading, setLoading] = useState(true)
-  const [initialized, setInitialized] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
-    if (initialized) return
+    let mounted = true
     
     const fetchData = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const { data: { user } } = await supabase.auth.getUser()
+
+      if (!mounted) return
 
       if (!user) {
-        router.push('/auth/login')
+        router.replace('/auth/login')
         return
       }
 
@@ -54,31 +53,34 @@ export default function CoachDashboard() {
         .eq('id', user.id)
         .single()
 
-      if (profile) {
-        if (profile.role === 'student') {
-          router.push('/dashboard/student')
-          return
-        }
-        setCoachName(profile.full_name)
+      if (!mounted) return
+
+      if (profile && profile.role === 'student') {
+        router.replace('/dashboard/student')
+        return
       }
 
-      // Charger tous les élèves
+      setCoachName(profile?.full_name || 'Coach')
+
       const { data: studentsData } = await supabase
         .from('apexdriver_profiles')
         .select('*')
         .eq('role', 'student')
         .order('created_at', { ascending: false })
 
+      if (!mounted) return
+
       if (studentsData) {
         setStudents(studentsData)
       }
 
       setLoading(false)
-      setInitialized(true)
     }
 
     fetchData()
-  }, [initialized])
+    
+    return () => { mounted = false }
+  }, [])
 
   useEffect(() => {
     if (selectedStudent) {

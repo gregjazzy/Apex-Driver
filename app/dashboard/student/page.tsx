@@ -15,65 +15,44 @@ export default function StudentDashboard() {
   const [userId, setUserId] = useState<string | null>(null)
   const [userName, setUserName] = useState<string>('')
   const [loading, setLoading] = useState(true)
-  const [initialized, setInitialized] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
-    if (initialized) return
+    let mounted = true
     
     const fetchUser = async () => {
-      try {
-        console.log('🔍 Fetching user...')
-        const {
-          data: { user },
-          error: authError
-        } = await supabase.auth.getUser()
+      const { data: { user } } = await supabase.auth.getUser()
 
-        console.log('👤 User:', user)
-        console.log('❌ Auth error:', authError)
+      if (!mounted) return
 
-        if (!user) {
-          console.log('⚠️ No user found, redirecting to login')
-          router.push('/auth/login')
-          return
-        }
-
-        console.log('📊 Fetching profile for user:', user.id)
-        const { data: profile, error: profileError } = await supabase
-          .from('apexdriver_profiles')
-          .select('*')
-          .eq('id', user.id)
-          .single()
-
-        console.log('👤 Profile:', profile)
-        console.log('❌ Profile error:', profileError)
-
-        if (profile) {
-          if (profile.role === 'coach') {
-            console.log('🎓 User is coach, redirecting')
-            router.push('/dashboard/coach')
-            return
-          }
-          console.log('✅ Setting username:', profile.full_name)
-          setUserName(profile.full_name)
-          setUserId(user.id)
-        } else {
-          console.error('⚠️ No profile found for user!')
-          setUserName(user.email?.split('@')[0] || 'Élève')
-          setUserId(user.id)
-        }
-        setLoading(false)
-        setInitialized(true)
-      } catch (error) {
-        console.error('💥 Error in fetchUser:', error)
-        setLoading(false)
-        setInitialized(true)
+      if (!user) {
+        router.replace('/auth/login')
+        return
       }
+
+      const { data: profile } = await supabase
+        .from('apexdriver_profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single()
+
+      if (!mounted) return
+
+      if (profile && profile.role === 'coach') {
+        router.replace('/dashboard/coach')
+        return
+      }
+
+      setUserName(profile?.full_name || user.email?.split('@')[0] || 'Élève')
+      setUserId(user.id)
+      setLoading(false)
     }
 
     fetchUser()
-  }, [initialized])
+    
+    return () => { mounted = false }
+  }, [])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
