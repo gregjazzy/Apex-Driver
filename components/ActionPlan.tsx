@@ -2,9 +2,6 @@
 
 import { useState, useCallback } from 'react'
 import { useTasks } from '@/hooks/useTasks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Check, Plus, Trash2 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
@@ -15,79 +12,30 @@ interface ActionPlanProps {
   canAddTasks?: boolean
 }
 
-const priorityColors = {
-  1: 'bg-red-500/10 text-red-600 border-red-200',
-  2: 'bg-amber-500/10 text-amber-600 border-amber-200',
-  3: 'bg-emerald-500/10 text-emerald-600 border-emerald-200',
+const priorityConfig = {
+  1: { label: 'Urgent', color: 'text-red-400', bg: 'bg-red-500/10' },
+  2: { label: 'Important', color: 'text-amber-400', bg: 'bg-amber-500/10' },
+  3: { label: 'Normal', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
 }
 
-const priorityLabels = {
-  1: 'Urgent',
-  2: 'Important',
-  3: 'Normal',
-}
-
-export function ActionPlan({ studentId, isCoach = false, studentName, canAddTasks = true }: ActionPlanProps) {
+export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPlanProps) {
   const { tasks, loading, toggleTask, addTask, deleteTask } = useTasks(studentId)
   const [newTaskTitle, setNewTaskTitle] = useState('')
   const [newTaskPriority, setNewTaskPriority] = useState<1 | 2 | 3>(2)
   const [isAdding, setIsAdding] = useState(false)
 
   const fireConfetti = useCallback(() => {
-    const count = 200
-    const defaults = {
-      origin: { y: 0.7 },
-      zIndex: 9999,
-    }
-
-    function fire(particleRatio: number, opts: confetti.Options) {
-      confetti({
-        ...defaults,
-        ...opts,
-        particleCount: Math.floor(count * particleRatio),
-      })
-    }
-
-    fire(0.25, {
-      spread: 26,
-      startVelocity: 55,
-    })
-
-    fire(0.2, {
-      spread: 60,
-    })
-
-    fire(0.35, {
-      spread: 100,
-      decay: 0.91,
-      scalar: 0.8,
-    })
-
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 25,
-      decay: 0.92,
-      scalar: 1.2,
-    })
-
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 45,
-    })
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 9999 })
   }, [])
 
   const handleToggle = async (taskId: string, currentStatus: boolean) => {
     await toggleTask(taskId, currentStatus)
-    if (!currentStatus) {
-      // La tâche vient d'être complétée
-      fireConfetti()
-    }
+    if (!currentStatus) fireConfetti()
   }
 
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!newTaskTitle.trim()) return
-
     await addTask(newTaskTitle, newTaskPriority)
     setNewTaskTitle('')
     setNewTaskPriority(2)
@@ -96,185 +44,143 @@ export function ActionPlan({ studentId, isCoach = false, studentName, canAddTask
 
   const completedCount = tasks.filter((t) => t.status).length
   const totalCount = tasks.length
-  const completionPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0
+  const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0
 
   if (loading) {
     return (
-      <Card className="rounded-3xl shadow-lg border-2">
-        <CardContent className="p-12 text-center">
-          <div className="animate-pulse text-lg">Chargement...</div>
-        </CardContent>
-      </Card>
+      <div className="bg-neutral-900 rounded-xl p-6 border border-neutral-800">
+        <p className="text-neutral-500 text-center">Chargement...</p>
+      </div>
     )
   }
 
   return (
-    <Card className="rounded-2xl sm:rounded-3xl shadow-lg border-2 overflow-hidden">
-      <CardHeader className="bg-gradient-to-br from-indigo-50 to-purple-50 pb-4 sm:pb-6">
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex-1 min-w-0">
-            <CardTitle className="text-xl sm:text-2xl lg:text-3xl font-bold text-indigo-900 truncate">
-              Plan d'Action
-            </CardTitle>
-            {studentName && (
-              <p className="text-xs sm:text-sm text-indigo-600 mt-1 truncate">{studentName}</p>
-            )}
+    <div className="bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden">
+      {/* Header */}
+      <div className="p-5 border-b border-neutral-800">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-lg font-semibold text-neutral-100">Plan d'Action</h2>
+            {studentName && <p className="text-sm text-neutral-500">{studentName}</p>}
           </div>
-          <div className="text-right shrink-0">
-            <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-indigo-700">
-              {completedCount}/{totalCount}
-            </div>
-            <div className="text-xs sm:text-sm text-indigo-600 hidden sm:block">tâches</div>
+          <div className="text-right">
+            <span className="text-2xl font-bold text-neutral-100">{completedCount}</span>
+            <span className="text-neutral-500">/{totalCount}</span>
           </div>
         </div>
         
-        {/* Barre de progression */}
-        <div className="mt-3 sm:mt-4 h-2 sm:h-3 bg-white rounded-full overflow-hidden shadow-inner">
+        {/* Progress bar */}
+        <div className="h-1 bg-neutral-800 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500 ease-out"
-            style={{ width: `${completionPercentage}%` }}
+            className="h-full bg-violet-500 transition-all duration-300"
+            style={{ width: `${progress}%` }}
           />
         </div>
-      </CardHeader>
+      </div>
 
-      <CardContent className="p-3 sm:p-4 lg:p-6 space-y-2 sm:space-y-3">
-        {/* Liste des tâches - Mobile optimisé */}
+      {/* Tasks */}
+      <div className="p-4 space-y-2 max-h-80 overflow-y-auto">
         {tasks.length === 0 ? (
-          <div className="text-center py-8 sm:py-12 text-gray-400">
-            <p className="text-base sm:text-lg">Aucune tâche</p>
-            <p className="text-xs sm:text-sm mt-2">Commence !</p>
-          </div>
+          <p className="text-neutral-500 text-center py-8">Aucune tâche</p>
         ) : (
           tasks.map((task) => (
             <div
               key={task.id}
-              className={`
-                group relative p-3 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl border-2 transition-all duration-300
-                ${
-                  task.status
-                    ? 'bg-gray-50 border-gray-200 opacity-60'
-                    : 'bg-white border-gray-200 hover:border-indigo-300 hover:shadow-md active:scale-[0.99]'
-                }
-              `}
+              className={`group flex items-start gap-3 p-3 rounded-lg border transition-colors ${
+                task.status 
+                  ? 'bg-neutral-800/50 border-neutral-800 opacity-50' 
+                  : 'bg-neutral-800/30 border-neutral-700/50 hover:border-neutral-600'
+              }`}
             >
-              <div className="flex items-start gap-2 sm:gap-3 lg:gap-4">
-                {/* Checkbox - Touch-friendly */}
-                <button
-                  onClick={() => handleToggle(task.id, task.status)}
-                  className={`
-                    flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full border-3 transition-all duration-300 active:scale-90
-                    ${
-                      task.status
-                        ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 border-emerald-600'
-                        : 'border-gray-300 hover:border-indigo-500'
-                    }
-                    flex items-center justify-center
-                  `}
-                >
-                  {task.status && <Check className="w-4 h-4 sm:w-5 sm:h-5 text-white" strokeWidth={3} />}
-                </button>
-
-                {/* Contenu de la tâche */}
-                <div className="flex-1 min-w-0">
-                  <p
-                    className={`
-                      text-sm sm:text-base lg:text-lg font-medium transition-all
-                      ${
-                        task.status
-                          ? 'line-through text-gray-400'
-                          : 'text-gray-800'
-                      }
-                    `}
-                  >
-                    {task.title}
-                  </p>
-                  <Badge
-                    variant="outline"
-                    className={`mt-1.5 sm:mt-2 text-xs ${priorityColors[task.priority as 1 | 2 | 3]}`}
-                  >
-                    {priorityLabels[task.priority as 1 | 2 | 3]}
-                  </Badge>
-                </div>
-
-                {/* Bouton supprimer (coach uniquement) - Touch-friendly */}
-                {isCoach && (
-                  <button
-                    onClick={() => deleteTask(task.id)}
-                    className="flex-shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity p-2 hover:bg-red-50 rounded-lg active:scale-90"
-                  >
-                    <Trash2 className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
-                  </button>
-                )}
+              <button
+                onClick={() => handleToggle(task.id, task.status)}
+                className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+                  task.status 
+                    ? 'bg-emerald-500 border-emerald-500' 
+                    : 'border-neutral-600 hover:border-violet-500'
+                }`}
+              >
+                {task.status && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
+              </button>
+              
+              <div className="flex-1 min-w-0">
+                <p className={`text-sm ${task.status ? 'line-through text-neutral-500' : 'text-neutral-200'}`}>
+                  {task.title}
+                </p>
+                <span className={`text-xs ${priorityConfig[task.priority as 1|2|3].color}`}>
+                  {priorityConfig[task.priority as 1|2|3].label}
+                </span>
               </div>
+
+              {isCoach && (
+                <button
+                  onClick={() => deleteTask(task.id)}
+                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/10 rounded transition-all"
+                >
+                  <Trash2 className="w-4 h-4 text-red-400" />
+                </button>
+              )}
             </div>
           ))
         )}
+      </div>
 
-        {/* Formulaire d'ajout - Pour tout le monde */}
-        <div className="pt-2 sm:pt-4">
-          {!isAdding ? (
-            <Button
-              onClick={() => setIsAdding(true)}
-              className="w-full rounded-xl sm:rounded-2xl h-12 sm:h-14 text-sm sm:text-base lg:text-lg bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 active:scale-[0.98] transition-transform"
-            >
-              <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-              Ajouter
-            </Button>
-          ) : (
-            <form onSubmit={handleAddTask} className="space-y-2 sm:space-y-3 p-3 sm:p-4 lg:p-5 bg-indigo-50/50 dark:bg-slate-800/50 rounded-xl sm:rounded-2xl">
-              <input
-                type="text"
-                value={newTaskTitle}
-                onChange={(e) => setNewTaskTitle(e.target.value)}
-                placeholder="Titre..."
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border-2 border-indigo-200 focus:border-indigo-500 focus:outline-none text-sm sm:text-base lg:text-lg dark:bg-slate-700 dark:border-slate-600 dark:text-white"
-                autoFocus
-              />
-              
-              <div className="flex gap-1.5 sm:gap-2">
-                {[1, 2, 3].map((priority) => (
-                  <button
-                    key={priority}
-                    type="button"
-                    onClick={() => setNewTaskPriority(priority as 1 | 2 | 3)}
-                    className={`
-                      flex-1 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all active:scale-95
-                      ${
-                        newTaskPriority === priority
-                          ? 'bg-indigo-600 text-white'
-                          : 'bg-white dark:bg-slate-700 border-2 border-gray-200 dark:border-slate-600 text-gray-600 dark:text-gray-300 hover:border-indigo-300'
-                      }
-                    `}
-                  >
-                    {priorityLabels[priority as 1 | 2 | 3]}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex gap-2">
-                <Button
-                  type="submit"
-                  className="flex-1 rounded-lg sm:rounded-xl bg-indigo-600 hover:bg-indigo-700 h-10 sm:h-11 text-sm active:scale-95 transition-transform"
-                >
-                  Ajouter
-                </Button>
-                <Button
+      {/* Add form */}
+      <div className="p-4 border-t border-neutral-800">
+        {!isAdding ? (
+          <button
+            onClick={() => setIsAdding(true)}
+            className="w-full py-3 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-medium flex items-center justify-center gap-2 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Ajouter une tâche
+          </button>
+        ) : (
+          <form onSubmit={handleAddTask} className="space-y-3">
+            <input
+              type="text"
+              value={newTaskTitle}
+              onChange={(e) => setNewTaskTitle(e.target.value)}
+              placeholder="Titre de la tâche..."
+              className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-neutral-200 placeholder-neutral-500 focus:border-violet-500 focus:outline-none"
+              autoFocus
+            />
+            
+            <div className="flex gap-2">
+              {[1, 2, 3].map((p) => (
+                <button
+                  key={p}
                   type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setIsAdding(false)
-                    setNewTaskTitle('')
-                    setNewTaskPriority(2)
-                  }}
-                  className="flex-1 rounded-lg sm:rounded-xl h-10 sm:h-11 text-sm active:scale-95 transition-transform"
+                  onClick={() => setNewTaskPriority(p as 1|2|3)}
+                  className={`flex-1 py-2 rounded-lg text-xs font-medium transition-colors ${
+                    newTaskPriority === p
+                      ? 'bg-violet-600 text-white'
+                      : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
+                  }`}
                 >
-                  Annuler
-                </Button>
-              </div>
-            </form>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+                  {priorityConfig[p as 1|2|3].label}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                className="flex-1 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg transition-colors"
+              >
+                Ajouter
+              </button>
+              <button
+                type="button"
+                onClick={() => { setIsAdding(false); setNewTaskTitle(''); }}
+                className="flex-1 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-lg transition-colors"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
   )
 }

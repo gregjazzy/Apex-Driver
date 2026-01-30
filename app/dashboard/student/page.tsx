@@ -5,11 +5,8 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ActionPlan } from '@/components/ActionPlan'
 import { PomodoroTimer } from '@/components/PomodoroTimer'
-import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/ThemeToggle'
 import { LogOut } from 'lucide-react'
 
-// Force dynamic rendering to prevent build-time errors
 export const dynamic = 'force-dynamic'
 
 export default function StudentDashboard() {
@@ -24,13 +21,8 @@ export default function StudentDashboard() {
     
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-
       if (!mounted) return
-
-      if (!user) {
-        router.replace('/auth/login')
-        return
-      }
+      if (!user) { router.replace('/auth/login'); return }
 
       const { data: profile } = await supabase
         .from('apexdriver_profiles')
@@ -39,11 +31,7 @@ export default function StudentDashboard() {
         .single()
 
       if (!mounted) return
-
-      if (profile && profile.role === 'coach') {
-        router.replace('/dashboard/coach')
-        return
-      }
+      if (profile && profile.role === 'coach') { router.replace('/dashboard/coach'); return }
 
       setUserName(profile?.full_name || user.email?.split('@')[0] || 'Élève')
       setUserId(user.id)
@@ -51,7 +39,6 @@ export default function StudentDashboard() {
     }
 
     fetchUser()
-    
     return () => { mounted = false }
   }, [])
 
@@ -63,85 +50,52 @@ export default function StudentDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-2xl text-gray-600 animate-pulse mb-4">Chargement...</div>
-          <div className="text-sm text-gray-500">Vérification de ton profil</div>
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-neutral-400">Chargement...</p>
       </div>
     )
   }
 
   if (!userId) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-4">
-        <div className="text-center bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg max-w-md">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Profil introuvable</h2>
-          <p className="text-gray-600 mb-6">
-            Impossible de charger ton profil. Assure-toi d'avoir bien créé ton compte.
-          </p>
-          <Button
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-center p-8 rounded-2xl max-w-md">
+          <h2 className="text-xl font-semibold text-neutral-200 mb-4">Profil introuvable</h2>
+          <button
             onClick={() => router.push('/auth/login')}
-            className="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600"
+            className="px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-lg transition-colors"
           >
             Retour à la connexion
-          </Button>
+          </button>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50">
-      {/* Header - Mobile Optimized */}
-      <header className="bg-white/80 backdrop-blur-sm border-b-2 border-gray-200 sticky top-0 z-50">
-        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-5">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent truncate">
-                {userName.split(' ')[0]}
-              </h1>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5 sm:mt-1 hidden sm:block">Prêt à donner le meilleur de toi-même ?</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                size="sm"
-                className="rounded-xl border-2"
-              >
-                <LogOut className="w-4 h-4 sm:mr-2" />
-                <span className="hidden sm:inline">Déconnexion</span>
-              </Button>
-            </div>
+    <div className="min-h-screen">
+      {/* Header simple */}
+      <header className="border-b border-neutral-800 sticky top-0 z-50 bg-[#0f0f0f]">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-semibold text-neutral-100">{userName}</h1>
+            <p className="text-sm text-neutral-500">Apex Dashboard</p>
           </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded-lg transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            <span className="hidden sm:inline">Déconnexion</span>
+          </button>
         </div>
       </header>
 
-      {/* Main Content - Mobile First */}
-      <main className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 lg:space-y-8">
-        {/* Grid adaptatif */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-          {/* Plan d'Action */}
-          <div>
-            {userId && <ActionPlan studentId={userId} isCoach={false} />}
-          </div>
-
-          {/* Pomodoro Timer */}
-          <div>
-            {userId && <PomodoroTimer studentId={userId} />}
-          </div>
-        </div>
-
-        {/* Message de motivation - Mobile adapté */}
-        <div className="p-4 sm:p-6 lg:p-8 bg-white/60 backdrop-blur-sm rounded-2xl sm:rounded-3xl border-2 border-gray-200 text-center">
-          <p className="text-base sm:text-xl lg:text-2xl font-semibold text-gray-800">
-            Chaque petite victoire compte !
-          </p>
-          <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">
-            Continue comme ça, tu progresses chaque jour
-          </p>
+      {/* Contenu principal */}
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ActionPlan studentId={userId} isCoach={false} />
+          <PomodoroTimer studentId={userId} />
         </div>
       </main>
     </div>
