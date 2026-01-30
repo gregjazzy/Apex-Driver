@@ -74,7 +74,7 @@ export default function CoachDashboard() {
     }
 
     fetchData()
-  }, [])
+  }, [router, supabase])
 
   useEffect(() => {
     if (selectedStudent) {

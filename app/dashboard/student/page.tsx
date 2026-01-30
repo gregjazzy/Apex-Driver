@@ -69,7 +69,7 @@ export default function StudentDashboard() {
     }
 
     fetchUser()
-  }, [])
+  }, [router, supabase])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
