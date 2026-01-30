@@ -31,10 +31,13 @@ export default function CoachDashboard() {
   const [studentStats, setStudentStats] = useState<StudentStats | null>(null)
   const [coachName, setCoachName] = useState<string>('')
   const [loading, setLoading] = useState(true)
+  const [initialized, setInitialized] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
+    if (initialized) return
+    
     const fetchData = async () => {
       const {
         data: { user },
@@ -71,10 +74,11 @@ export default function CoachDashboard() {
       }
 
       setLoading(false)
+      setInitialized(true)
     }
 
     fetchData()
-  }, [router, supabase])
+  }, [initialized])
 
   useEffect(() => {
     if (selectedStudent) {

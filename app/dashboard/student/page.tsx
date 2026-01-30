@@ -15,10 +15,13 @@ export default function StudentDashboard() {
   const [userId, setUserId] = useState<string | null>(null)
   const [userName, setUserName] = useState<string>('')
   const [loading, setLoading] = useState(true)
+  const [initialized, setInitialized] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
+    if (initialized) return
+    
     const fetchUser = async () => {
       try {
         console.log('🔍 Fetching user...')
@@ -57,19 +60,20 @@ export default function StudentDashboard() {
           setUserId(user.id)
         } else {
           console.error('⚠️ No profile found for user!')
-          // Si pas de profil, on peut quand même afficher avec l'email
           setUserName(user.email?.split('@')[0] || 'Élève')
           setUserId(user.id)
         }
         setLoading(false)
+        setInitialized(true)
       } catch (error) {
         console.error('💥 Error in fetchUser:', error)
         setLoading(false)
+        setInitialized(true)
       }
     }
 
     fetchUser()
-  }, [router, supabase])
+  }, [initialized])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
