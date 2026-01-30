@@ -5,7 +5,7 @@ export const translations = {
     login: "Se connecter",
     signup: "S'inscrire",
     logout: "Déconnexion",
-    email: "Email",
+    username: "Identifiant",
     password: "Mot de passe",
     fullName: "Nom complet",
     loggingIn: "Connexion...",
@@ -17,8 +17,8 @@ export const translations = {
     iAm: "Je suis un(e)",
     
     // Landing Page
-    appTitle: "Apex Coaching",
-    appSubtitle: "La plateforme de coaching pour élèves motivés",
+    appTitle: "Apex Driver",
+    appSubtitle: "La plateforme de coaching pour pilotes en herbe",
     appDescription: "Organise tes tâches, utilise la technique Pomodoro et suit ta progression en temps réel avec ton coach. Une interface moderne et intuitive pour t'aider à donner le meilleur de toi-même !",
     getStarted: "Commencer",
     alreadyAccount: "Déjà un compte ? Connecte-toi",
@@ -106,8 +106,8 @@ export const translations = {
     
     // Errors
     errors: {
-      invalidCredentials: "Email ou mot de passe incorrect",
-      userExists: "Un compte existe déjà avec cet email",
+      invalidCredentials: "Identifiant ou mot de passe incorrect",
+      userExists: "Cet identifiant est déjà pris",
       weakPassword: "Le mot de passe doit faire au moins 6 caractères",
       required: "Ce champ est requis"
     }
@@ -119,7 +119,7 @@ export const translations = {
     login: "Login",
     signup: "Sign up",
     logout: "Logout",
-    email: "Email",
+    username: "Username",
     password: "Password",
     fullName: "Full name",
     loggingIn: "Logging in...",
@@ -131,8 +131,8 @@ export const translations = {
     iAm: "I am a",
     
     // Landing Page
-    appTitle: "Apex Coaching",
-    appSubtitle: "The coaching platform for motivated students",
+    appTitle: "Apex Driver",
+    appSubtitle: "The coaching platform for aspiring drivers",
     appDescription: "Organize your tasks, use the Pomodoro technique and track your progress in real-time with your coach. A modern and intuitive interface to help you give your best!",
     getStarted: "Get Started",
     alreadyAccount: "Already have an account? Sign in",
@@ -220,8 +220,8 @@ export const translations = {
     
     // Errors
     errors: {
-      invalidCredentials: "Invalid email or password",
-      userExists: "An account already exists with this email",
+      invalidCredentials: "Invalid username or password",
+      userExists: "This username is already taken",
       weakPassword: "Password must be at least 6 characters",
       required: "This field is required"
     }

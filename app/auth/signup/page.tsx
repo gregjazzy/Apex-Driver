@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 export const dynamic = 'force-dynamic'
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [role, setRole] = useState<'coach' | 'student'>('student')
@@ -24,6 +24,9 @@ export default function SignUpPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
+
+    // Convertir l'identifiant en email pour Supabase Auth
+    const email = `${username.toLowerCase()}@apexdriver.app`
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -50,14 +53,14 @@ export default function SignUpPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md rounded-3xl shadow-2xl border-2">
-          <CardContent className="p-12 text-center">
-            <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">
-              Bienvenue !
+      <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-3 sm:p-4">
+        <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border-2">
+          <CardContent className="p-8 sm:p-12 text-center">
+            <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🎉</div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
+              Bienvenue chez Apex Driver !
             </h2>
-            <p className="text-gray-600">
+            <p className="text-sm sm:text-base text-gray-600">
               Ton compte a été créé avec succès. Redirection...
             </p>
           </CardContent>
@@ -67,18 +70,18 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md rounded-3xl shadow-2xl border-2">
-        <CardHeader className="text-center pb-8 pt-10">
-          <div className="text-6xl mb-4">🚀</div>
-          <CardTitle className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-3 sm:p-4">
+      <Card className="w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl border-2">
+        <CardHeader className="text-center pb-6 sm:pb-8 pt-8 sm:pt-10 px-4 sm:px-8">
+          <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🏎️</div>
+          <CardTitle className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             Créer un compte
           </CardTitle>
-          <p className="text-gray-600 mt-2">Rejoins Apex Coaching</p>
+          <p className="text-sm sm:text-base text-gray-600 mt-2">Rejoins Apex Driver</p>
         </CardHeader>
 
-        <CardContent className="px-8 pb-10">
-          <form onSubmit={handleSignUp} className="space-y-5">
+        <CardContent className="px-4 sm:px-8 pb-8 sm:pb-10">
+          <form onSubmit={handleSignUp} className="space-y-4 sm:space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nom complet
@@ -87,7 +90,7 @@ export default function SignUpPage() {
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-lg"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-base sm:text-lg"
                 placeholder="Ton nom"
                 required
               />
@@ -95,14 +98,14 @@ export default function SignUpPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
+                Identifiant
               </label>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-lg"
-                placeholder="ton.email@example.com"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-base sm:text-lg"
+                placeholder="Choisis un pseudo"
                 required
               />
             </div>
@@ -115,7 +118,7 @@ export default function SignUpPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-lg"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-base sm:text-lg"
                 placeholder="••••••••"
                 required
                 minLength={6}
@@ -126,12 +129,12 @@ export default function SignUpPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Je suis un(e)
               </label>
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => setRole('student')}
                   className={`
-                    flex-1 py-3 rounded-xl text-lg font-medium transition-all
+                    flex-1 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-base sm:text-lg font-medium transition-all active:scale-95
                     ${
                       role === 'student'
                         ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white'
@@ -145,7 +148,7 @@ export default function SignUpPage() {
                   type="button"
                   onClick={() => setRole('coach')}
                   className={`
-                    flex-1 py-3 rounded-xl text-lg font-medium transition-all
+                    flex-1 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-base sm:text-lg font-medium transition-all active:scale-95
                     ${
                       role === 'coach'
                         ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white'
@@ -159,7 +162,7 @@ export default function SignUpPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 text-red-600 text-sm">
+              <div className="bg-red-50 border-2 border-red-200 rounded-lg sm:rounded-xl p-3 sm:p-4 text-red-600 text-sm">
                 {error}
               </div>
             )}
@@ -167,14 +170,14 @@ export default function SignUpPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-14 rounded-xl text-lg font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+              className="w-full h-12 sm:h-14 rounded-lg sm:rounded-xl text-base sm:text-lg font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 active:scale-[0.98] transition-transform"
             >
               {loading ? 'Création...' : 'Créer mon compte'}
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
-            <a href="/auth/login" className="text-indigo-600 hover:text-indigo-700 font-medium">
+          <div className="mt-5 sm:mt-6 text-center">
+            <a href="/auth/login" className="text-sm sm:text-base text-indigo-600 hover:text-indigo-700 font-medium">
               Déjà un compte ? Connecte-toi
             </a>
           </div>

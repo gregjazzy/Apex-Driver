@@ -170,29 +170,29 @@ export function PomodoroTimer({ studentId }: PomodoroTimerProps) {
   const currentConfig = modeConfig[mode]
 
   return (
-    <Card className="rounded-3xl shadow-lg border-2 overflow-hidden">
-      <CardHeader className={`${currentConfig.bgColor} pb-6`}>
-        <CardTitle className="text-3xl font-bold text-gray-800 text-center">
+    <Card className="rounded-2xl sm:rounded-3xl shadow-lg border-2 overflow-hidden">
+      <CardHeader className={`${currentConfig.bgColor} pb-4 sm:pb-6`}>
+        <CardTitle className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 text-center">
           {currentConfig.label}
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="p-8">
-        {/* Statistiques */}
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl">
-            <div className="text-3xl font-bold text-indigo-700">{sessionsCount}</div>
-            <div className="text-sm text-indigo-600 mt-1">Sessions complétées</div>
+      <CardContent className="p-4 sm:p-6 lg:p-8">
+        {/* Statistiques - Mobile adapté */}
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-4 sm:mb-6 lg:mb-8">
+          <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl sm:rounded-2xl">
+            <div className="text-2xl sm:text-3xl font-bold text-indigo-700">{sessionsCount}</div>
+            <div className="text-xs sm:text-sm text-indigo-600 mt-1">Sessions</div>
           </div>
-          <div className="text-center p-4 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl">
-            <div className="text-3xl font-bold text-teal-700">{totalMinutes}</div>
-            <div className="text-sm text-teal-600 mt-1">Minutes totales</div>
+          <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl sm:rounded-2xl">
+            <div className="text-2xl sm:text-3xl font-bold text-teal-700">{totalMinutes}</div>
+            <div className="text-xs sm:text-sm text-teal-600 mt-1">Minutes</div>
           </div>
         </div>
 
-        {/* Timer circulaire */}
-        <div className="relative flex items-center justify-center mb-8">
-          <svg className="transform -rotate-90" width="320" height="320">
+        {/* Timer circulaire - Responsive */}
+        <div className="relative flex items-center justify-center mb-4 sm:mb-6 lg:mb-8">
+          <svg className="transform -rotate-90 w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80" viewBox="0 0 320 320">
             {/* Cercle de fond */}
             <circle
               cx="160"
@@ -217,23 +217,23 @@ export function PomodoroTimer({ studentId }: PomodoroTimerProps) {
             />
           </svg>
 
-          {/* Temps affiché au centre */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="text-7xl font-bold text-gray-800 tabular-nums">
+          {/* Temps affiché au centre - Mobile adapté */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
+            <div className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-800 tabular-nums">
               {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
             </div>
-            <div className="text-lg text-gray-500 mt-2">
-              {mode === 'work' ? 'Reste concentré !' : 'Profite de ta pause'}
+            <div className="text-xs sm:text-sm lg:text-lg text-gray-500 mt-1 sm:mt-2 text-center">
+              {mode === 'work' ? 'Concentré !' : 'Profite !'}
             </div>
           </div>
         </div>
 
-        {/* Sélecteur de mode */}
-        <div className="flex gap-2 mb-6">
+        {/* Sélecteur de mode - Mobile optimisé */}
+        <div className="flex gap-1.5 sm:gap-2 mb-4 sm:mb-6">
           <button
             onClick={() => handleModeChange('work')}
             className={`
-              flex-1 py-3 rounded-xl text-sm font-medium transition-all
+              flex-1 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all
               ${
                 mode === 'work'
                   ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white'
@@ -241,12 +241,13 @@ export function PomodoroTimer({ studentId }: PomodoroTimerProps) {
               }
             `}
           >
-            Pomodoro
+            <span className="hidden sm:inline">Pomodoro</span>
+            <span className="sm:hidden">25m</span>
           </button>
           <button
             onClick={() => handleModeChange('short')}
             className={`
-              flex-1 py-3 rounded-xl text-sm font-medium transition-all
+              flex-1 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all
               ${
                 mode === 'short'
                   ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white'
@@ -254,12 +255,13 @@ export function PomodoroTimer({ studentId }: PomodoroTimerProps) {
               }
             `}
           >
-            Pause 5m
+            <span className="hidden sm:inline">Pause 5m</span>
+            <span className="sm:hidden">5m</span>
           </button>
           <button
             onClick={() => handleModeChange('long')}
             className={`
-              flex-1 py-3 rounded-xl text-sm font-medium transition-all
+              flex-1 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all
               ${
                 mode === 'long'
                   ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white'
@@ -267,45 +269,46 @@ export function PomodoroTimer({ studentId }: PomodoroTimerProps) {
               }
             `}
           >
-            Pause 15m
+            <span className="hidden sm:inline">Pause 15m</span>
+            <span className="sm:hidden">15m</span>
           </button>
         </div>
 
-        {/* Contrôles */}
-        <div className="flex gap-3">
+        {/* Contrôles - Mobile touch-friendly */}
+        <div className="flex gap-2 sm:gap-3">
           {!isRunning ? (
             <Button
               onClick={handleStart}
-              className={`flex-1 h-16 rounded-2xl text-lg font-semibold bg-gradient-to-r ${currentConfig.color} hover:opacity-90`}
+              className={`flex-1 h-12 sm:h-14 lg:h-16 rounded-xl sm:rounded-2xl text-sm sm:text-base lg:text-lg font-semibold bg-gradient-to-r ${currentConfig.color} hover:opacity-90 active:scale-95 transition-transform`}
             >
-              <Play className="w-6 h-6 mr-2" />
-              Démarrer
+              <Play className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 sm:mr-2" />
+              <span className="hidden sm:inline">Démarrer</span>
             </Button>
           ) : (
             <Button
               onClick={handlePause}
-              className="flex-1 h-16 rounded-2xl text-lg font-semibold bg-gray-700 hover:bg-gray-800"
+              className="flex-1 h-12 sm:h-14 lg:h-16 rounded-xl sm:rounded-2xl text-sm sm:text-base lg:text-lg font-semibold bg-gray-700 hover:bg-gray-800 active:scale-95 transition-transform"
             >
-              <Pause className="w-6 h-6 mr-2" />
-              Pause
+              <Pause className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 sm:mr-2" />
+              <span className="hidden sm:inline">Pause</span>
             </Button>
           )}
 
           <Button
             onClick={handleReset}
             variant="outline"
-            className="h-16 px-6 rounded-2xl border-2"
+            className="h-12 sm:h-14 lg:h-16 px-4 sm:px-6 rounded-xl sm:rounded-2xl border-2 active:scale-95 transition-transform"
           >
-            <RotateCcw className="w-5 h-5" />
+            <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
           </Button>
 
           {(isRunning || timeLeft < totalDuration) && (
             <Button
               onClick={handleAbandon}
               variant="outline"
-              className="h-16 px-6 rounded-2xl border-2 border-red-200 text-red-600 hover:bg-red-50"
+              className="h-12 sm:h-14 lg:h-16 px-4 sm:px-6 rounded-xl sm:rounded-2xl border-2 border-red-200 text-red-600 hover:bg-red-50 active:scale-95 transition-transform"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
           )}
         </div>
