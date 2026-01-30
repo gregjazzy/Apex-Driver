@@ -16,10 +16,10 @@ export function InfoModal({ title, children }: InfoModalProps) {
       {/* Bouton aide */}
       <button
         onClick={() => setIsOpen(true)}
-        className="p-1.5 text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800 rounded-lg transition-colors"
+        className="p-2 text-violet-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-lg transition-colors border border-violet-500/30 hover:border-violet-500/50"
         title="En savoir plus"
       >
-        <HelpCircle className="w-4 h-4" />
+        <HelpCircle className="w-5 h-5" />
       </button>
 
       {/* Modal */}
