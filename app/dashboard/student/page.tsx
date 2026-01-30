@@ -20,30 +20,52 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      try {
+        console.log('🔍 Fetching user...')
+        const {
+          data: { user },
+          error: authError
+        } = await supabase.auth.getUser()
 
-      if (!user) {
-        router.push('/auth/login')
-        return
-      }
+        console.log('👤 User:', user)
+        console.log('❌ Auth error:', authError)
 
-      const { data: profile } = await supabase
-        .from('apexdriver_profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single()
-
-      if (profile) {
-        if (profile.role === 'coach') {
-          router.push('/dashboard/coach')
+        if (!user) {
+          console.log('⚠️ No user found, redirecting to login')
+          router.push('/auth/login')
           return
         }
-        setUserName(profile.full_name)
-        setUserId(user.id)
+
+        console.log('📊 Fetching profile for user:', user.id)
+        const { data: profile, error: profileError } = await supabase
+          .from('apexdriver_profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single()
+
+        console.log('👤 Profile:', profile)
+        console.log('❌ Profile error:', profileError)
+
+        if (profile) {
+          if (profile.role === 'coach') {
+            console.log('🎓 User is coach, redirecting')
+            router.push('/dashboard/coach')
+            return
+          }
+          console.log('✅ Setting username:', profile.full_name)
+          setUserName(profile.full_name)
+          setUserId(user.id)
+        } else {
+          console.error('⚠️ No profile found for user!')
+          // Si pas de profil, on peut quand même afficher avec l'email
+          setUserName(user.email?.split('@')[0] || 'Élève')
+          setUserId(user.id)
+        }
+        setLoading(false)
+      } catch (error) {
+        console.error('💥 Error in fetchUser:', error)
+        setLoading(false)
       }
-      setLoading(false)
     }
 
     fetchUser()
@@ -58,7 +80,30 @@ export default function StudentDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center">
-        <div className="text-2xl text-gray-600 animate-pulse">Chargement...</div>
+        <div className="text-center">
+          <div className="text-2xl text-gray-600 animate-pulse mb-4">Chargement...</div>
+          <div className="text-sm text-gray-500">Vérification de ton profil</div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!userId) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50 flex items-center justify-center p-4">
+        <div className="text-center bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg max-w-md">
+          <div className="text-6xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Profil introuvable</h2>
+          <p className="text-gray-600 mb-6">
+            Impossible de charger ton profil. Assure-toi d'avoir bien créé ton compte.
+          </p>
+          <Button
+            onClick={() => router.push('/auth/login')}
+            className="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600"
+          >
+            Retour à la connexion
+          </Button>
+        </div>
       </div>
     )
   }
