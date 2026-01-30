@@ -142,72 +142,74 @@ export default function CoachDashboard() {
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50">
-        {/* Header */}
+        {/* Header - Mobile Optimized */}
         <header className="bg-white/80 backdrop-blur-sm border-b-2 border-gray-200 sticky top-0 z-50">
-          <div className="container mx-auto px-6 py-5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+          <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-5">
+            <div className="flex items-center justify-between gap-2 sm:gap-4">
+              <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
                 <Button
                   onClick={() => setSelectedStudent(null)}
                   variant="outline"
-                  className="rounded-xl border-2"
+                  size="sm"
+                  className="rounded-lg sm:rounded-xl border-2 shrink-0"
                 >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Retour
+                  <ArrowLeft className="w-4 h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Retour</span>
                 </Button>
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-800">
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-lg sm:text-2xl lg:text-3xl font-bold text-gray-800 truncate">
                     {selectedStudent.full_name}
                   </h1>
-                  <p className="text-gray-600 mt-1">Dashboard élève</p>
+                  <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 hidden sm:block">Dashboard élève</p>
                 </div>
               </div>
               <Button
                 onClick={handleLogout}
                 variant="outline"
-                className="rounded-xl border-2"
+                size="sm"
+                className="rounded-lg sm:rounded-xl border-2 shrink-0"
               >
-                <LogOut className="w-4 h-4 mr-2" />
-                Déconnexion
+                <LogOut className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Déconnexion</span>
               </Button>
             </div>
           </div>
         </header>
 
-        {/* Stats de l'élève */}
-        <main className="container mx-auto px-6 py-8">
-          <div className="grid md:grid-cols-4 gap-4 mb-8">
-            <Card className="rounded-2xl shadow-lg border-2">
-              <CardContent className="p-6 text-center">
-                <div className="text-4xl font-bold text-indigo-600">
+        {/* Stats de l'élève - Mobile Grid */}
+        <main className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 lg:space-y-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
+            <Card className="rounded-xl sm:rounded-2xl shadow-lg border-2">
+              <CardContent className="p-3 sm:p-4 lg:p-6 text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-indigo-600">
                   {studentStats?.completedTasks || 0}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Tâches complétées</div>
+                <div className="text-xs sm:text-sm text-gray-600 mt-1">Complétées</div>
               </CardContent>
             </Card>
 
-            <Card className="rounded-2xl shadow-lg border-2">
-              <CardContent className="p-6 text-center">
-                <div className="text-4xl font-bold text-purple-600">
+            <Card className="rounded-xl sm:rounded-2xl shadow-lg border-2">
+              <CardContent className="p-3 sm:p-4 lg:p-6 text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-600">
                   {studentStats?.totalTasks || 0}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Tâches totales</div>
+                <div className="text-xs sm:text-sm text-gray-600 mt-1">Totales</div>
               </CardContent>
             </Card>
 
-            <Card className="rounded-2xl shadow-lg border-2">
-              <CardContent className="p-6 text-center">
-                <div className="text-4xl font-bold text-teal-600">
+            <Card className="rounded-xl sm:rounded-2xl shadow-lg border-2">
+              <CardContent className="p-3 sm:p-4 lg:p-6 text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-teal-600">
                   {studentStats?.totalPomodoroMinutes || 0}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Minutes Pomodoro</div>
+                <div className="text-xs sm:text-sm text-gray-600 mt-1">Minutes</div>
               </CardContent>
             </Card>
 
-            <Card className="rounded-2xl shadow-lg border-2">
-              <CardContent className="p-6 text-center">
-                <div className="text-4xl font-bold text-amber-600">{completionRate}%</div>
-                <div className="text-sm text-gray-600 mt-1">Taux de complétion</div>
+            <Card className="rounded-xl sm:rounded-2xl shadow-lg border-2">
+              <CardContent className="p-3 sm:p-4 lg:p-6 text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-amber-600">{completionRate}%</div>
+                <div className="text-xs sm:text-sm text-gray-600 mt-1">Complétion</div>
               </CardContent>
             </Card>
           </div>
@@ -226,74 +228,75 @@ export default function CoachDashboard() {
   // Vue liste des élèves
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-teal-50">
-      {/* Header */}
+      {/* Header - Mobile Optimized */}
       <header className="bg-white/80 backdrop-blur-sm border-b-2 border-gray-200 sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                👨‍🏫 Dashboard Coach
+        <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent truncate">
+                👨‍🏫 Coach
               </h1>
-              <p className="text-gray-600 mt-1">Bienvenue {coachName}</p>
+              <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 hidden sm:block">Bienvenue {coachName}</p>
             </div>
             <Button
               onClick={handleLogout}
               variant="outline"
-              className="rounded-xl border-2"
+              size="sm"
+              className="rounded-lg sm:rounded-xl border-2 shrink-0"
             >
-              <LogOut className="w-4 h-4 mr-2" />
-              Déconnexion
+              <LogOut className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">Déconnexion</span>
             </Button>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
-        <Card className="rounded-3xl shadow-lg border-2">
-          <CardHeader className="bg-gradient-to-br from-indigo-50 to-purple-50">
-            <CardTitle className="text-2xl font-bold text-indigo-900">
+      {/* Main Content - Mobile First */}
+      <main className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 lg:space-y-8">
+        <Card className="rounded-2xl sm:rounded-3xl shadow-lg border-2">
+          <CardHeader className="bg-gradient-to-br from-indigo-50 to-purple-50 p-4 sm:p-6">
+            <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-indigo-900">
               📚 Mes Élèves ({students.length})
             </CardTitle>
           </CardHeader>
 
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             {students.length === 0 ? (
-              <div className="text-center py-12 text-gray-400">
-                <p className="text-lg">Aucun élève pour le moment</p>
-                <p className="text-sm mt-2">
-                  Les nouveaux élèves apparaîtront ici après leur inscription
+              <div className="text-center py-8 sm:py-12 text-gray-400">
+                <p className="text-base sm:text-lg">Aucun élève</p>
+                <p className="text-xs sm:text-sm mt-2">
+                  Les élèves apparaîtront après inscription
                 </p>
               </div>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {students.map((student) => (
                   <button
                     key={student.id}
                     onClick={() => setSelectedStudent(student)}
-                    className="group p-6 bg-white rounded-2xl border-2 border-gray-200 hover:border-indigo-300 hover:shadow-lg transition-all text-left"
+                    className="group p-4 sm:p-5 lg:p-6 bg-white rounded-xl sm:rounded-2xl border-2 border-gray-200 hover:border-indigo-300 hover:shadow-lg active:scale-[0.98] transition-all text-left"
                   >
-                    <div className="flex items-center gap-4 mb-4">
-                      <Avatar className="w-14 h-14 bg-gradient-to-br from-indigo-400 to-purple-500">
-                        <AvatarFallback className="text-white text-lg font-bold">
+                    <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                      <Avatar className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-indigo-400 to-purple-500 shrink-0">
+                        <AvatarFallback className="text-white text-base sm:text-lg font-bold">
                           {getInitials(student.full_name)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-semibold text-gray-800 truncate group-hover:text-indigo-600 transition-colors">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-800 truncate group-hover:text-indigo-600 transition-colors">
                           {student.full_name}
                         </h3>
                         <Badge
                           variant="outline"
-                          className="mt-1 bg-emerald-50 text-emerald-600 border-emerald-200"
+                          className="mt-1 bg-emerald-50 text-emerald-600 border-emerald-200 text-xs"
                         >
                           Élève
                         </Badge>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>Voir le dashboard →</span>
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500">
+                      <span>Voir dashboard →</span>
                     </div>
                   </button>
                 ))}
@@ -302,14 +305,13 @@ export default function CoachDashboard() {
           </CardContent>
         </Card>
 
-        {/* Infos */}
-        <div className="mt-8 p-8 bg-white/60 backdrop-blur-sm rounded-3xl border-2 border-gray-200">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+        {/* Infos - Mobile adapté */}
+        <div className="p-4 sm:p-6 lg:p-8 bg-white/60 backdrop-blur-sm rounded-2xl sm:rounded-3xl border-2 border-gray-200">
+          <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 mb-2 sm:mb-4">
             💡 Conseil
           </h3>
-          <p className="text-gray-600">
-            Clique sur un élève pour accéder à son dashboard personnel et gérer ses tâches en temps réel.
-            Toutes les modifications que tu fais sont synchronisées instantanément !
+          <p className="text-sm sm:text-base text-gray-600">
+            Clique sur un élève pour gérer ses tâches en temps réel. Tout est synchronisé instantanément !
           </p>
         </div>
       </main>
