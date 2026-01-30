@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Database } from '@/lib/database.types'
 
-type Profile = Database['public']['Tables']['profiles']['Row']
+type Profile = Database['public']['Tables']['apexdriver_profiles']['Row']
 
 export function useProfile() {
   const [profile, setProfile] = useState<Profile | null>(null)
@@ -17,7 +17,7 @@ export function useProfile() {
 
       if (user) {
         const { data, error } = await supabase
-          .from('profiles')
+          .from('apexdriver_profiles')
           .select('*')
           .eq('id', user.id)
           .single()

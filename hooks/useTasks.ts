@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Database } from '@/lib/database.types'
 import { RealtimeChannel } from '@supabase/supabase-js'
 
-type Task = Database['public']['Tables']['tasks']['Row']
+type Task = Database['public']['Tables']['apexdriver_tasks']['Row']
 
 export function useTasks(studentId: string | null) {
   const [tasks, setTasks] = useState<Task[]>([])
@@ -22,7 +22,7 @@ export function useTasks(studentId: string | null) {
 
     const fetchTasks = async () => {
       const { data, error } = await supabase
-        .from('tasks')
+        .from('apexdriver_tasks')
         .select('*')
         .eq('student_id', studentId)
         .order('priority', { ascending: true })
@@ -40,13 +40,13 @@ export function useTasks(studentId: string | null) {
 
     // Setup realtime subscription
     channel = supabase
-      .channel(`tasks:student_id=eq.${studentId}`)
+      .channel(`apexdriver_tasks:student_id=eq.${studentId}`)
       .on(
         'postgres_changes',
         {
           event: '*',
           schema: 'public',
-          table: 'tasks',
+          table: 'apexdriver_tasks',
           filter: `student_id=eq.${studentId}`,
         },
         (payload) => {
@@ -74,7 +74,7 @@ export function useTasks(studentId: string | null) {
 
   const toggleTask = async (taskId: string, currentStatus: boolean) => {
     const { error } = await supabase
-      .from('tasks')
+      .from('apexdriver_tasks')
       .update({ status: !currentStatus })
       .eq('id', taskId)
 
@@ -87,7 +87,7 @@ export function useTasks(studentId: string | null) {
     if (!studentId) return
 
     const { error } = await supabase
-      .from('tasks')
+      .from('apexdriver_tasks')
       .insert({
         student_id: studentId,
         title,
@@ -102,7 +102,7 @@ export function useTasks(studentId: string | null) {
 
   const deleteTask = async (taskId: string) => {
     const { error } = await supabase
-      .from('tasks')
+      .from('apexdriver_tasks')
       .delete()
       .eq('id', taskId)
 

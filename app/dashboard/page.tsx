@@ -13,7 +13,7 @@ export default async function DashboardPage() {
   }
 
   const { data: profile, error } = await supabase
-    .from('profiles')
+    .from('apexdriver_profiles')
     .select('*')
     .eq('id', user.id)
     .single()

@@ -9,7 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      profiles: {
+      apexdriver_profiles: {
         Row: {
           id: string
           role: 'coach' | 'student'
@@ -33,7 +33,7 @@ export type Database = {
         }
         Relationships: []
       }
-      tasks: {
+      apexdriver_tasks: {
         Row: {
           id: string
           student_id: string
@@ -63,14 +63,14 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "tasks_student_id_fkey"
+            foreignKeyName: "apexdriver_tasks_student_id_fkey"
             columns: ["student_id"]
-            referencedRelation: "profiles"
+            referencedRelation: "apexdriver_profiles"
             referencedColumns: ["id"]
           }
         ]
       }
-      pomodoro_sessions: {
+      apexdriver_pomodoro_sessions: {
         Row: {
           id: string
           student_id: string
@@ -94,9 +94,9 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "pomodoro_sessions_student_id_fkey"
+            foreignKeyName: "apexdriver_pomodoro_sessions_student_id_fkey"
             columns: ["student_id"]
-            referencedRelation: "profiles"
+            referencedRelation: "apexdriver_profiles"
             referencedColumns: ["id"]
           }
         ]

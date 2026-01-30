@@ -27,7 +27,7 @@ export default function StudentDashboard() {
       }
 
       const { data: profile } = await supabase
-        .from('profiles')
+        .from('apexdriver_profiles')
         .select('*')
         .eq('id', user.id)
         .single()

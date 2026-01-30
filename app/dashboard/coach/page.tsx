@@ -11,9 +11,9 @@ import { Badge } from '@/components/ui/badge'
 import { ActionPlan } from '@/components/ActionPlan'
 import { LogOut, ArrowLeft, Clock, CheckCircle2 } from 'lucide-react'
 
-type Profile = Database['public']['Tables']['profiles']['Row']
-type Task = Database['public']['Tables']['tasks']['Row']
-type PomodoroSession = Database['public']['Tables']['pomodoro_sessions']['Row']
+type Profile = Database['public']['Tables']['apexdriver_profiles']['Row']
+type Task = Database['public']['Tables']['apexdriver_tasks']['Row']
+type PomodoroSession = Database['public']['Tables']['apexdriver_pomodoro_sessions']['Row']
 
 interface StudentStats {
   totalTasks: number
@@ -43,7 +43,7 @@ export default function CoachDashboard() {
       }
 
       const { data: profile } = await supabase
-        .from('profiles')
+        .from('apexdriver_profiles')
         .select('*')
         .eq('id', user.id)
         .single()
@@ -58,7 +58,7 @@ export default function CoachDashboard() {
 
       // Charger tous les élèves
       const { data: studentsData } = await supabase
-        .from('profiles')
+        .from('apexdriver_profiles')
         .select('*')
         .eq('role', 'student')
         .order('created_at', { ascending: false })
@@ -82,13 +82,13 @@ export default function CoachDashboard() {
   const fetchStudentStats = async (studentId: string) => {
     // Récupérer les tâches
     const { data: tasks } = await supabase
-      .from('tasks')
+      .from('apexdriver_tasks')
       .select('*')
       .eq('student_id', studentId)
 
     // Récupérer les sessions Pomodoro
     const { data: sessions } = await supabase
-      .from('pomodoro_sessions')
+      .from('apexdriver_pomodoro_sessions')
       .select('*')
       .eq('student_id', studentId)
 

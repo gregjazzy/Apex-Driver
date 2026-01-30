@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Database } from '@/lib/database.types'
 
-type PomodoroSession = Database['public']['Tables']['pomodoro_sessions']['Row']
+type PomodoroSession = Database['public']['Tables']['apexdriver_pomodoro_sessions']['Row']
 
 export function usePomodoroSessions(studentId: string | null) {
   const [sessions, setSessions] = useState<PomodoroSession[]>([])
@@ -19,7 +19,7 @@ export function usePomodoroSessions(studentId: string | null) {
 
     const fetchSessions = async () => {
       const { data, error } = await supabase
-        .from('pomodoro_sessions')
+        .from('apexdriver_pomodoro_sessions')
         .select('*')
         .eq('student_id', studentId)
         .order('created_at', { ascending: false })
@@ -36,13 +36,13 @@ export function usePomodoroSessions(studentId: string | null) {
 
     // Setup realtime subscription
     const channel = supabase
-      .channel(`pomodoro_sessions:student_id=eq.${studentId}`)
+      .channel(`apexdriver_pomodoro_sessions:student_id=eq.${studentId}`)
       .on(
         'postgres_changes',
         {
           event: '*',
           schema: 'public',
-          table: 'pomodoro_sessions',
+          table: 'apexdriver_pomodoro_sessions',
           filter: `student_id=eq.${studentId}`,
         },
         (payload) => {
@@ -65,7 +65,7 @@ export function usePomodoroSessions(studentId: string | null) {
     if (!studentId) return
 
     const { error } = await supabase
-      .from('pomodoro_sessions')
+      .from('apexdriver_pomodoro_sessions')
       .insert({
         student_id: studentId,
         duration,
