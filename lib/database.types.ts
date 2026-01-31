@@ -41,6 +41,7 @@ export type Database = {
           description: string | null
           status: boolean
           priority: 1 | 2 | 3
+          progress: number
           due_date: string | null
           created_at: string
           updated_at: string
@@ -52,6 +53,7 @@ export type Database = {
           description?: string | null
           status?: boolean
           priority: 1 | 2 | 3
+          progress?: number
           due_date?: string | null
           created_at?: string
           updated_at?: string
@@ -63,6 +65,7 @@ export type Database = {
           description?: string | null
           status?: boolean
           priority?: 1 | 2 | 3
+          progress?: number
           due_date?: string | null
           created_at?: string
           updated_at?: string

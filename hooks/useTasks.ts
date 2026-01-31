@@ -73,9 +73,41 @@ export function useTasks(studentId: string | null) {
   }, [studentId])
 
   const toggleTask = async (taskId: string, currentStatus: boolean) => {
+    const newProgress = !currentStatus ? 100 : 0
     const { error } = await supabase
       .from('apexdriver_tasks')
-      .update({ status: !currentStatus })
+      .update({ 
+        status: !currentStatus,
+        progress: newProgress
+      })
+      .eq('id', taskId)
+
+    if (error) {
+      console.error('Erreur lors de la mise à jour de la tâche:', error)
+    }
+  }
+
+  const updateProgress = async (taskId: string, progress: number) => {
+    const status = progress === 100
+    const { error } = await supabase
+      .from('apexdriver_tasks')
+      .update({ progress, status })
+      .eq('id', taskId)
+
+    if (error) {
+      console.error('Erreur lors de la mise à jour de la progression:', error)
+    }
+  }
+
+  const updateTask = async (taskId: string, updates: {
+    title?: string
+    description?: string | null
+    priority?: 1 | 2 | 3
+    due_date?: string | null
+  }) => {
+    const { error } = await supabase
+      .from('apexdriver_tasks')
+      .update(updates)
       .eq('id', taskId)
 
     if (error) {
@@ -93,6 +125,7 @@ export function useTasks(studentId: string | null) {
         title,
         priority,
         status: false,
+        progress: 0,
         due_date: dueDate || null,
         description: description || null,
       })
@@ -113,5 +146,5 @@ export function useTasks(studentId: string | null) {
     }
   }
 
-  return { tasks, loading, toggleTask, addTask, deleteTask }
+  return { tasks, loading, toggleTask, updateProgress, updateTask, addTask, deleteTask }
 }
