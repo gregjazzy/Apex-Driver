@@ -38,8 +38,10 @@ export type Database = {
           id: string
           student_id: string
           title: string
+          description: string | null
           status: boolean
           priority: 1 | 2 | 3
+          due_date: string | null
           created_at: string
           updated_at: string
         }
@@ -47,8 +49,10 @@ export type Database = {
           id?: string
           student_id: string
           title: string
+          description?: string | null
           status?: boolean
           priority: 1 | 2 | 3
+          due_date?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -56,8 +60,10 @@ export type Database = {
           id?: string
           student_id?: string
           title?: string
+          description?: string | null
           status?: boolean
           priority?: 1 | 2 | 3
+          due_date?: string | null
           created_at?: string
           updated_at?: string
         }

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useTasks } from '@/hooks/useTasks'
-import { Check, Plus, Trash2 } from 'lucide-react'
+import { Check, Plus, Trash2, Calendar, FileText } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { InfoModal } from './InfoModal'
 
@@ -78,6 +78,8 @@ function ActionPlanInfo() {
 export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPlanProps) {
   const { tasks, loading, toggleTask, addTask, deleteTask } = useTasks(studentId)
   const [newTaskTitle, setNewTaskTitle] = useState('')
+  const [newTaskDescription, setNewTaskDescription] = useState('')
+  const [newTaskDueDate, setNewTaskDueDate] = useState('')
   const [newTaskPriority, setNewTaskPriority] = useState<1 | 2 | 3>(2)
   const [isAdding, setIsAdding] = useState(false)
 
@@ -93,8 +95,10 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!newTaskTitle.trim()) return
-    await addTask(newTaskTitle, newTaskPriority)
+    await addTask(newTaskTitle, newTaskPriority, newTaskDueDate, newTaskDescription)
     setNewTaskTitle('')
+    setNewTaskDescription('')
+    setNewTaskDueDate('')
     setNewTaskPriority(2)
     setIsAdding(false)
   }
@@ -102,6 +106,24 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
   const completedCount = tasks.filter((t) => t.status).length
   const totalCount = tasks.length
   const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0
+
+  const formatDate = (dateStr: string | null) => {
+    if (!dateStr) return null
+    const date = new Date(dateStr)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const taskDate = new Date(dateStr)
+    taskDate.setHours(0, 0, 0, 0)
+    
+    const diffDays = Math.ceil((taskDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+    
+    if (diffDays < 0) return { text: 'En retard', color: 'text-red-400' }
+    if (diffDays === 0) return { text: 'Aujourd\'hui', color: 'text-amber-400' }
+    if (diffDays === 1) return { text: 'Demain', color: 'text-teal-400' }
+    if (diffDays <= 7) return { text: `Dans ${diffDays}j`, color: 'text-teal-400' }
+    
+    return { text: date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }), color: 'text-neutral-400' }
+  }
 
   if (loading) {
     return (
@@ -143,45 +165,68 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
         {tasks.length === 0 ? (
           <p className="text-neutral-500 text-center py-8">Aucune tâche</p>
         ) : (
-          tasks.map((task) => (
-            <div
-              key={task.id}
-              className={`group flex items-start gap-3 p-3 rounded-lg border transition-colors ${
-                task.status 
-                  ? 'bg-neutral-800/50 border-neutral-800 opacity-50' 
-                  : 'bg-neutral-800/30 border-neutral-700/50 hover:border-neutral-600'
-              }`}
-            >
-              <button
-                onClick={() => handleToggle(task.id, task.status)}
-                className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+          tasks.map((task) => {
+            const dueDateInfo = formatDate(task.due_date)
+            return (
+              <div
+                key={task.id}
+                className={`group flex items-start gap-3 p-3 rounded-lg border transition-colors ${
                   task.status 
-                    ? 'bg-emerald-500 border-emerald-500' 
-                    : 'border-neutral-600 hover:border-violet-500'
+                    ? 'bg-neutral-800/50 border-neutral-800 opacity-50' 
+                    : 'bg-neutral-800/30 border-neutral-700/50 hover:border-neutral-600'
                 }`}
               >
-                {task.status && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
-              </button>
-              
-              <div className="flex-1 min-w-0">
-                <p className={`text-sm ${task.status ? 'line-through text-neutral-500' : 'text-neutral-200'}`}>
-                  {task.title}
-                </p>
-                <span className={`text-xs ${priorityConfig[task.priority as 1|2|3].color}`}>
-                  {priorityConfig[task.priority as 1|2|3].label}
-                </span>
-              </div>
-
-              {isCoach && (
                 <button
-                  onClick={() => deleteTask(task.id)}
-                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/10 rounded transition-all"
+                  onClick={() => handleToggle(task.id, task.status)}
+                  className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+                    task.status 
+                      ? 'bg-emerald-500 border-emerald-500' 
+                      : 'border-neutral-600 hover:border-violet-500'
+                  }`}
                 >
-                  <Trash2 className="w-4 h-4 text-red-400" />
+                  {task.status && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
                 </button>
-              )}
-            </div>
-          ))
+                
+                <div className="flex-1 min-w-0">
+                  <p className={`text-sm font-medium ${task.status ? 'line-through text-neutral-500' : 'text-neutral-200'}`}>
+                    {task.title}
+                  </p>
+                  
+                  {task.description && (
+                    <p className="text-xs text-neutral-500 mt-1 flex items-start gap-1">
+                      <FileText className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                      <span>{task.description}</span>
+                    </p>
+                  )}
+                  
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <span className={`text-xs ${priorityConfig[task.priority as 1|2|3].color}`}>
+                      {priorityConfig[task.priority as 1|2|3].label}
+                    </span>
+                    
+                    {dueDateInfo && (
+                      <>
+                        <span className="text-neutral-600">•</span>
+                        <span className={`text-xs flex items-center gap-1 ${dueDateInfo.color}`}>
+                          <Calendar className="w-3 h-3" />
+                          {dueDateInfo.text}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {isCoach && (
+                  <button
+                    onClick={() => deleteTask(task.id)}
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/10 rounded transition-all"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-400" />
+                  </button>
+                )}
+              </div>
+            )
+          })
         )}
       </div>
 
@@ -204,6 +249,21 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
               placeholder="Titre de la tâche..."
               className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-neutral-200 placeholder-neutral-500 focus:border-violet-500 focus:outline-none"
               autoFocus
+            />
+            
+            <textarea
+              value={newTaskDescription}
+              onChange={(e) => setNewTaskDescription(e.target.value)}
+              placeholder="Description (optionnelle)..."
+              className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-neutral-200 placeholder-neutral-500 focus:border-violet-500 focus:outline-none resize-none"
+              rows={2}
+            />
+            
+            <input
+              type="date"
+              value={newTaskDueDate}
+              onChange={(e) => setNewTaskDueDate(e.target.value)}
+              className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-neutral-200 focus:border-violet-500 focus:outline-none"
             />
             
             <div className="flex gap-2">
@@ -232,7 +292,12 @@ export function ActionPlan({ studentId, isCoach = false, studentName }: ActionPl
               </button>
               <button
                 type="button"
-                onClick={() => { setIsAdding(false); setNewTaskTitle(''); }}
+                onClick={() => { 
+                  setIsAdding(false); 
+                  setNewTaskTitle(''); 
+                  setNewTaskDescription(''); 
+                  setNewTaskDueDate(''); 
+                }}
                 className="flex-1 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-lg transition-colors"
               >
                 Annuler

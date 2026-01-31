@@ -83,7 +83,7 @@ export function useTasks(studentId: string | null) {
     }
   }
 
-  const addTask = async (title: string, priority: 1 | 2 | 3) => {
+  const addTask = async (title: string, priority: 1 | 2 | 3, dueDate?: string, description?: string) => {
     if (!studentId) return
 
     const { error } = await supabase
@@ -93,6 +93,8 @@ export function useTasks(studentId: string | null) {
         title,
         priority,
         status: false,
+        due_date: dueDate || null,
+        description: description || null,
       })
 
     if (error) {
