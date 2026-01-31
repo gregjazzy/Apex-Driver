@@ -133,6 +133,18 @@ export function PomodoroStats({ studentId }: PomodoroStatsProps) {
             <p className="text-sm mt-1">Commence une session pour voir tes stats !</p>
           </div>
         )}
+
+        {/* Message motivant */}
+        {totalSessions > 0 && (
+          <div className="mt-6 p-4 bg-violet-500/10 border border-violet-500/20 rounded-lg">
+            <p className="text-violet-300 text-sm text-center">
+              {totalSessions < 5 && "🌱 Tu débutes bien ! Continue comme ça"}
+              {totalSessions >= 5 && totalSessions < 10 && "💪 Belle progression ! Tu prends le rythme"}
+              {totalSessions >= 10 && totalSessions < 20 && "🔥 Excellent travail ! Tu es régulier"}
+              {totalSessions >= 20 && "⭐ Incroyable ! Tu es un champion du focus"}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )

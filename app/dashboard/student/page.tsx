@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ActionPlan } from '@/components/ActionPlan'
 import { PomodoroTimer } from '@/components/PomodoroTimer'
+import { PomodoroStats } from '@/components/PomodoroStats'
 import { LogOut } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -92,11 +93,14 @@ export default function StudentDashboard() {
       </header>
 
       {/* Contenu principal */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-8 space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <ActionPlan studentId={userId} isCoach={false} />
           <PomodoroTimer studentId={userId} />
         </div>
+        
+        {/* Stats Pomodoro */}
+        <PomodoroStats studentId={userId} />
       </main>
     </div>
   )
